@@ -2,7 +2,7 @@
  
 A simple setup to have an [Aleph Zero](https://alephzero.org) decentralized validator node running in under an hour.
 
-For in-depth general instructions please refer to the [technical documentation](https://docs.alephzero.org/aleph-zero/stake/validators). The official docs leave margin for the dev to choose a number of specifics for their own setup, which is precisely what we do in this GitHub repo.
+For in-depth general instructions please refer to the [technical documentation](https://docs.alephzero.org/aleph-zero/stake/validators). The official docs leave margin for the dev to choose the specifics of their own setup, which is precisely what we do in this GitHub repo.
 
 This setup has already been used to run 2 separate nodes for 2+ years with 100% uptime.
 
@@ -10,7 +10,7 @@ This setup has already been used to run 2 separate nodes for 2+ years with 100% 
 
 ## Server Specifications
 
-The official recommended Aleph Zero specs for each node are summarized in the image below. I have been running a [Bare Metal OVH server](https://eco.ovhcloud.com) for each of my 2 nodes with the following specs:
+The official recommended Aleph Zero specs for each node are summarized in the image below. I have been running a [bare metal OVH server](https://eco.ovhcloud.com) for each of my 2 nodes with the following specs:
 - `OS`: Ubuntu Server 22.04 LTS
 - `CPU`: Intel Xeon E3-1230v6 - 4c/8t - 3.5 GHz/3.9 GHz
 - `RAM`: 32 GB ECC 2133 MHz
@@ -20,11 +20,11 @@ The official recommended Aleph Zero specs for each node are summarized in the im
 
 ![Azero Node Specs](/img/node-specs.jpeg)
 
-Before you secure your bare metal server, remember that in order to run a node you need to bond at least [25,000 AZERO tokens](https://docs.alephzero.org/aleph-zero/stake/validators) for a minimum of 2 weeks. This is a security measure to prevent sybil attacks (w/ thousands of fake identities) and ensure that a real vested interest in the network is required to validate blocks and transactions. If you want to buy AZERO, they have a [summary of the available options here](https://docs.alephzero.org/aleph-zero/explore/where-to-buy-azero).
+Before you secure your bare metal server, remember that in order to run a node you need to bond at least [25,000 AZERO tokens](https://docs.alephzero.org/aleph-zero/stake/validators) for a minimum of 2 weeks. This is a security measure to prevent sybil attacks (with thousands of fake identities) and ensure that a real vested interest in the network is required to validate blocks and transactions. If you want to buy AZERO, they have a [summary of the available options here](https://docs.alephzero.org/aleph-zero/explore/where-to-buy-azero).
 
-## Logging Into The Server
+## Logging into the Server
 
-_💡 Pro Tip: If you use Mac, I highly recommend using [Warp](https://warp.dev) for your CLI. It's an amazing dev experience, and it has a really convenient feature called [Workflows](https://docs.warp.dev/features/warp-drive/workflows) which can save your bash commands, even parametrizing certain parts as variables — super useful if you know you'll be frequently reusing the same / similar commands! This feature is what you can see in the left panel of the [first screenshot](/img/running-node-warp-cli.png) in this README._
+> _💡 Pro Tip: If you use Mac, I highly recommend using [Warp](https://warp.dev) for your CLI. It's an amazing dev experience, and it has a really convenient feature called [Workflows](https://docs.warp.dev/features/warp-drive/workflows) which can save your `bash` commands, even parametrizing certain parts as variables — super useful if you know you'll be frequently reusing the same / similar commands! This feature is what you can see in the left panel of the [first screenshot](/img/running-node-warp-cli.jpeg) of this README. I have included all my Warp workflows in [a dedicated folder](/workflows)._
 
 Once you have your OVH server up and running, you will want to log into it using [SSH](https://arjunaravind.in/blog/learning-and-using-ssh). First, follow [the official guide](https://help.ovhcloud.com/csm/en-dedicated-servers-creating-ssh-keys) to create an SSH key pair and add it to your OVH server. I recommend also setting up a passphrase for added security in case someone had access to your machine.
 
@@ -44,9 +44,9 @@ elif [ "{{network}}" = "testnet" ]; then
 fi
 ```
 
-If you previously set up a passphrase, you will be prompted to introduce it now. Once done, you're in! You should see a subshell with your username in this format: `ubuntu@your-server-name`.
+If you previously set up a passphrase, you will be prompted to enter it now. Once done, you're in! You should see a subshell with your username in this format: `ubuntu@your-server-name`.
 
-## Setting Up The Node
+## Setting up the Node
 
 The server should be ready to go with the default Ubuntu 22.04 installation. If you want to make sure everything is up to date, you can run the following command:
 
@@ -127,7 +127,7 @@ The first time you run this, it will take quite some time before you actually ge
 
 And that's all! Your node is now live, connected to the Aleph Zero network, and able to communicate with other nodes and receive blocks. 🥳
 
-## Managing The Node
+## Managing the Node
 
 From time to time, you will want to log into your server and update the software that your node is running (typically after an official announcement from the Aleph Zero Foundation).
 
@@ -138,7 +138,7 @@ docker ps
 docker logs -f {{yourNodeName}} --tail 20
 ```
 
-If you want to update your node, you need to first stop it quickly, pull the latest changes from the `aleph-node-runner` repo, and run the node again. Here's a script that does just that:
+If you want to update your node, you need to first stop it quickly, pull the latest changes from the `aleph-node-runner` repo, and run the node again. Here's a script that does exactly that:
 
 ```bash
 docker stop {{yourNodeName}}
@@ -147,12 +147,11 @@ cd ~/aleph-node-runner
 git pull
 
 ./run_node.sh -n {{yourNodeName}} --ip {{yourPublicIp}} --mainnet
-cd ..
 ```
 
 ## Staying Updated
 
-Lastly, validating transactions in a blockchain is a low-maintenance effort, but it still requires keeping an eye out for updates (or incidents) from time to time.
+Lastly, keeping a node to validate blockchain transactions is a relatively low-maintenance effort, but it still requires keeping an eye out for updates (or incidents) from time to time.
 
 I recommend setting up a Telegram alert with [Azero.live](https://docs.alephzero.org/aleph-zero/account/telegram-notifications) so that their bot notifies you if your node would ever stop producing blocks for any reason. The process is really quick (< 3 minutes), simple, and free!
 
